@@ -1,4 +1,4 @@
-package com.alumind.alumindfeedbacksprojectllm.model;
+package com.alumind.alumindfeedbacksprojectllm.model.feedback;
 
 import com.alumind.alumindfeedbacksprojectllm.common.enums.Sentiment;
 import jakarta.persistence.*;
