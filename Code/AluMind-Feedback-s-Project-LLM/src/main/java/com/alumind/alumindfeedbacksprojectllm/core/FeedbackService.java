@@ -36,16 +36,29 @@ public class FeedbackService {
     }
 
     public FeedbackResponseDTO analyzeFeedback(String feedbackRequest) {
+        if(!isSpam(feedbackRequest)){
+            return FeedbackResponseDTO.builder()
+                    .id(null)
+                    .sentiment(Sentiment.SPAM.name())
+                    .requestedFeatures(new ArrayList<>())
+                    .build();
+        }
         String promptText = "Analise o seguinte feedback: \"" + feedbackRequest +
-                "\". Determine se o sentimento é positivo, negativo ou inconclusivo e identifique quaisquer funcionalidades sugeridas. Use o seguinte formato e o reproduza exatamente:'Funcionalidade sugerida: <código_da_funcionalidade> - Motivo: <descrição_do_motivo>. Responda somente com esse formato mas não esqueça de dizer se é positivoo negativo ou inconclusivo.";
+                "\". Determine se o sentimento é positivo, negativo ou inconclusivo e identifique quaisquer funcionalidades sugeridas. Use o seguinte formato e o reproduza exatamente:'Funcionalidade sugerida: <código_da_funcionalidade> - Motivo: <descrição_do_motivo>. Responda somente com esse formato mas não esqueça de dizer se é positivo, negativo ou inconclusivo.";
 
         PromptTemplate promptTemplate = new PromptTemplate(promptText);
         List<Generation> response = chatClient.prompt(promptTemplate.create()).call().chatResponse().getResults();
 
         FeedbackResponse feedbackResponse = new FeedbackResponse();
         feedbackResponse.setSentiment(extractSentiment(response));
+
         List<RequestedFeature> requestedFeatures = extractRequestedFeatures(response);
-        feedbackResponse.setRequestedFeatures(extractRequestedFeatures(response));
+        for (RequestedFeature feature : requestedFeatures) {
+            feature.setFeedbackResponse(feedbackResponse);
+        }
+        feedbackResponse.setRequestedFeatures(requestedFeatures);
+
+        feedbackResponseRepository.save(feedbackResponse);
 
         FeedbackResponseDTO responseDTO = new FeedbackResponseDTO();
         responseDTO.setId(feedbackResponse.getId());
@@ -92,6 +105,17 @@ public class FeedbackService {
         }
 
         return features;
+    }
+
+    private boolean isSpam(String feedbackRequest) {
+        String promptText = "Classifique o seguinte feedback como SPAM ou NÃO SPAM: \"" + feedbackRequest +
+                "\". Considere como SPAM qualquer conteúdo agressivo ou que não esteja relacionado ao Alumind. RESPONDA APENAS UMA PALAVRA SIM OU NÃO";
+
+        PromptTemplate promptTemplate = new PromptTemplate(promptText);
+        List<Generation> response = chatClient.prompt(promptTemplate.create()).call().chatResponse().getResults();
+
+        return response.stream().anyMatch(generation ->
+                generation.getOutput().getContent().toLowerCase().contains("não"));
     }
 
     private String formatToUpperCaseWithUnderscore(String input) {
