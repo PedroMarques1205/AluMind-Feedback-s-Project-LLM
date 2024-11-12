@@ -1,6 +1,6 @@
 package com.alumind.alumindfeedbacksprojectllm.common.utils;
 
-import com.alumind.alumindfeedbacksprojectllm.model.FeedbackResponse;
+import com.alumind.alumindfeedbacksprojectllm.model.feedback.FeedbackResponse;
 import lombok.Data;
 import jakarta.persistence.*;
 
