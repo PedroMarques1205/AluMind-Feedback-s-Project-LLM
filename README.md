@@ -55,5 +55,37 @@ Para potencializar a experiência do usuário e auxiliar o time de produto na an
   
 - **Gerar relatórios semanais ou mensais**: Produz resumos automáticos dos temas mais comentados e a frequência de feedbacks em cada categoria, proporcionando ao time de produtos uma visão clara das prioridades e preocupações dos usuários.
 
+## Como Executar o Projeto
+
+### 1. Instalação do Ollama
+Primeiramente, será necessário instalar o **Ollama**, uma ferramenta de código aberto que permite executar e gerenciar modelos de linguagem grande (LLMs) diretamente na sua máquina local.
+1. Acesse o site [Ollama](https://ollama.com/) e faça o download do instalador apropriado para seu sistema operacional.
+2. Após a instalação, abra o Prompt de Comando e execute o seguinte comando para baixar o modelo LLM necessário:
+   ```bash
+   ollama pull phi3
+   ```
+
+### 2. Instalação do Java 23
+Caso ainda não tenha o Java 23 instalado:
+1. Acesse o site oficial do [Oracle Java](https://www.oracle.com/java/technologies/downloads/).
+2. Faça o download do Java 23. É necessário ter uma conta Oracle; caso não tenha, crie uma para prosseguir com o download.
+3. Siga as instruções de instalação fornecidas.
+
+### 3. Configuração e Execução do Projeto
+1. Clone este repositório para o diretório de sua preferência:
+   ```bash
+   git clone https://github.com/seu_usuario/alumind-feedback-analysis.git
+   ```
+2. Abra o projeto em uma IDE Java de sua escolha.
+3. No projeto, localize o arquivo `AluMindFeedbackSProjectLlmApplication.java` e execute-o para iniciar o servidor.
+
+### 4. Acessando a Interface Swagger
+1. Abra seu navegador e acesse a interface do Swagger para visualizar e interagir com os endpoints da aplicação:
+   ```
+   http://localhost:8080/swagger-ui/index.html#/
+   ```
+2. Na aba `feedback-controller`, expanda a rota `POST /api/feedback/feedbacks`.
+3. Insira o texto do feedback no campo de entrada e clique no botão "Execute" para enviar a requisição e receber a análise do feedback.
+
 
 
