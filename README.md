@@ -74,7 +74,7 @@ Caso ainda não tenha o Java 23 instalado:
 ### 3. Configuração e Execução do Projeto
 1. Clone este repositório para o diretório de sua preferência:
    ```bash
-   git clone https://github.com/seu_usuario/alumind-feedback-analysis.git
+   git clone <Link do reposiório>
    ```
 2. Abra o projeto em uma IDE Java de sua escolha.
 3. No projeto, localize o arquivo `AluMindFeedbackSProjectLlmApplication.java` e execute-o para iniciar o servidor.
